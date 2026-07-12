@@ -14,7 +14,10 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await api.post("/yash/auth/login", { email, password });
+      const response = await api.post("/yash/auth/login", { 
+        email: email.trim().toLowerCase(), 
+        password 
+      });
       
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -32,13 +35,17 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await api.post("/yash/auth/signup", { name, email, password });
+      const response = await api.post("/yash/auth/signup", { 
+        name, 
+        email: email.trim().toLowerCase(), 
+        password 
+      });
       
       if (response.data.success) {
-        alert("Registration Successful! Please sign in.");
-        setIsSignup(false);
-        setName("");
-        setPassword("");
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        alert("Registration Successful! Welcome to AssetFlow.");
+        window.location.reload();
       }
     } catch (error) {
       alert(error.response?.data?.message || "Registration Failed");
@@ -46,6 +53,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div style={{

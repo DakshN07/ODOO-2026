@@ -15,31 +15,26 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 exports.loginUser = async (req, res) => {
-
     try {
-
         const { email, password } = req.body;
+        const normalizedEmail = email ? email.trim().toLowerCase() : "";
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: normalizedEmail });
 
         if (!user) {
-
             return res.status(404).json({
                 success: false,
                 message: "User not found"
             });
-
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-
             return res.status(400).json({
                 success: false,
                 message: "Invalid Password"
             });
-
         }
 
         const token = jwt.sign(
@@ -47,7 +42,7 @@ exports.loginUser = async (req, res) => {
                 id: user._id,
                 role: user.role
             },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET || "default_secret_key_for_jwt_session",
             {
                 expiresIn: "7d"
             }
@@ -60,38 +55,26 @@ exports.loginUser = async (req, res) => {
         });
 
         res.status(200).json({
-
             success: true,
             token,
-
             user: {
-
                 id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role
-
             }
-
         });
-
     }
     catch (error) {
-
         res.status(500).json({
             success: false,
             error: error.message
         });
-
     }
-
 };
-
-// Admin setup/register stub
 
 exports.registerUser = async (req, res) => {
     try {
-
         const { name, email, password } = req.body;
 
         if (!name || !email || !password) {
@@ -101,7 +84,9 @@ exports.registerUser = async (req, res) => {
             });
         }
 
-        const existingUser = await User.findOne({ email });
+        const normalizedEmail = email ? email.trim().toLowerCase() : "";
+
+        const existingUser = await User.findOne({ email: normalizedEmail });
 
         if (existingUser) {
             return res.status(400).json({
@@ -114,10 +99,8 @@ exports.registerUser = async (req, res) => {
 
         const user = await User.create({
             name,
-            email,
+            email: normalizedEmail,
             password: hashedPassword,
-
-            // Nobody can become Admin while signing up
             role: "Employee"
         });
 
@@ -127,19 +110,34 @@ exports.registerUser = async (req, res) => {
             module: "Authentication"
         });
 
+        const token = jwt.sign(
+            {
+                id: user._id,
+                role: user.role
+            },
+            process.env.JWT_SECRET || "default_secret_key_for_jwt_session",
+            {
+                expiresIn: "7d"
+            }
+        );
+
         res.status(201).json({
             success: true,
-            message: "Registration Successful"
+            message: "Registration Successful",
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
         });
-
     }
     catch (error) {
-
         res.status(500).json({
             success: false,
             error: error.message
         });
-
     }
 };
 
