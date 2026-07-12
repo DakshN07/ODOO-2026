@@ -1,13 +1,45 @@
-const { Asset, AuditCycle, DiscrepancyReport } = require('../models/DakshModels');
+const { Counter, Asset, AuditCycle, DiscrepancyReport } = require('../models/DakshModels');
 
-// Asset Directory & Registration stubs
+// Asset Directory & Registration
 exports.registerAsset = async (req, res) => {
   try {
-    res.status(201).json({ success: true, message: 'Asset registered mock response' });
+    const { name, category, serialNumber, acquisitionDate, cost, condition, location, isBookable } = req.body;
+
+    if (!name || !category || !serialNumber || !acquisitionDate || !cost || !location) {
+      return res.status(400).json({ success: false, message: 'Required fields missing: name, category, serialNumber, acquisitionDate, cost, location' });
+    }
+
+    // Atomic update of the counter
+    const counter = await Counter.findOneAndUpdate(
+      { _id: 'asset_tag_counter' },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
+
+    // Format serial tag padded with 4 zeros: e.g. AF-0001
+    const seqStr = String(counter.seq).padStart(4, '0');
+    const assetTag = `AF-${seqStr}`;
+
+    const newAsset = new Asset({
+      name,
+      category,
+      assetTag,
+      serialNumber,
+      acquisitionDate,
+      cost,
+      condition: condition || 'Good',
+      location,
+      isBookable: isBookable || false,
+      status: 'Available'
+    });
+
+    await newAsset.save();
+    res.status(201).json({ success: true, asset: newAsset });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
 
 exports.getAssets = async (req, res) => {
   try {
