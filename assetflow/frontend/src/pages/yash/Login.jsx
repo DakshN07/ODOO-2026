@@ -54,212 +54,224 @@ const Login = () => {
     }
   };
 
-
   return (
     <div style={{
       display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       minHeight: "100vh",
-      backgroundColor: "#0b0f19", // Deep dark background
+      backgroundColor: "#05070a", // Ultra deep background
+      backgroundImage: "radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(79, 70, 229, 0.1), transparent 25%)",
       fontFamily: ThemeConfig.fonts.main,
-      padding: "1rem"
+      color: "#fff"
     }}>
-      {/* Centered Login/Signup Card */}
+      
+      {/* Left Branding Panel */}
       <div style={{
-        width: "100%",
-        maxWidth: "420px",
-        backgroundColor: "#111827", // Odoo dark card background
-        border: "1px solid #1f2937",
-        borderRadius: "16px",
-        padding: "2.5rem 2rem",
-        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3)",
+        flex: 1,
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        justifyContent: "center",
+        padding: "4rem",
+        background: "linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(11, 15, 25, 0.95) 100%)",
+        borderRight: "1px solid rgba(255,255,255,0.05)",
+        position: "relative",
+        overflow: "hidden"
       }}>
-        
-        {/* Header Title */}
-        <h2 style={{
-          margin: "0 0 1.5rem 0",
-          fontSize: "1.6rem",
-          fontWeight: "bold",
-          color: "#fff",
-          textAlign: "center"
-        }}>
-          AssetFlow – {isSignup ? "signup" : "login"}
-        </h2>
-
-        {/* Circular AF Logo */}
-        <div style={{
-          width: "72px",
-          height: "72px",
-          borderRadius: "50%",
-          border: "2px solid #374151",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "1.5rem",
-          fontWeight: "bold",
-          color: ThemeConfig.colors.secondary, // Emerald green tone
-          marginBottom: "2rem",
-          backgroundColor: "#1f2937"
-        }}>
-          AF
-        </div>
-
-        {/* Form Container */}
-        <form 
-          onSubmit={isSignup ? handleSignup : handleLogin} 
-          style={{
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{
+            width: "80px",
+            height: "80px",
+            borderRadius: "16px",
+            background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
             display: "flex",
-            flexDirection: "column",
-            gap: "1.25rem",
-            width: "100%"
-          }}
-        >
-          {isSignup && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-              <label style={{ fontSize: "0.85rem", color: "#9ca3af", fontWeight: "500" }}>Name</label>
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                style={{
-                  padding: "12px",
-                  borderRadius: "8px",
-                  border: "1px solid #374151",
-                  backgroundColor: "#1f2937",
-                  color: "#fff",
-                  outline: "none"
-                }}
-              />
-            </div>
-          )}
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-            <label style={{ fontSize: "0.85rem", color: "#9ca3af", fontWeight: "500" }}>Email</label>
-            <input
-              type="email"
-              placeholder="name@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{
-                padding: "12px",
-                borderRadius: "8px",
-                border: "1px solid #374151",
-                backgroundColor: "#1f2937",
-                color: "#fff",
-                outline: "none"
-              }}
-            />
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "2rem",
+            fontWeight: "bold",
+            color: "#fff",
+            marginBottom: "2rem",
+            boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.4)"
+          }}>
+            AF
           </div>
+          <h1 style={{ fontSize: "3.5rem", fontWeight: "800", marginBottom: "1rem", lineHeight: "1.1", background: "linear-gradient(to right, #fff, #9ca3af)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            Enterprise<br/>Asset Mastery.
+          </h1>
+          <p style={{ fontSize: "1.1rem", color: "#9ca3af", maxWidth: "450px", lineHeight: "1.6" }}>
+            Streamline your organizational resources with intelligent tracking, intuitive auditing, and seamless allocations.
+          </p>
+        </div>
+        {/* Abstract Background Shapes */}
+        <div style={{ position: "absolute", top: "-10%", left: "-10%", width: "50%", height: "50%", background: "radial-gradient(circle, rgba(79,70,229,0.15) 0%, transparent 70%)", filter: "blur(40px)" }} />
+        <div style={{ position: "absolute", bottom: "-10%", right: "-10%", width: "60%", height: "60%", background: "radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%)", filter: "blur(60px)" }} />
+      </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", position: "relative" }}>
-            <label style={{ fontSize: "0.85rem", color: "#9ca3af", fontWeight: "500" }}>Password</label>
-            <input
-              type="password"
-              placeholder="**********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={{
-                padding: "12px",
-                borderRadius: "8px",
-                border: "1px solid #374151",
-                backgroundColor: "#1f2937",
-                color: "#fff",
-                outline: "none"
-              }}
-            />
-            {!isSignup && (
-              <span style={{
-                alignSelf: "flex-end",
-                fontSize: "0.8rem",
-                color: "#9ca3af",
-                cursor: "pointer",
-                marginTop: "4px"
-              }}>
-                Forgot password
-              </span>
-            )}
-          </div>
-
-          <Button 
-            type="submit" 
-            variant="secondary"
-            style={{
-              padding: "12px",
-              fontWeight: "600",
-              marginTop: "0.5rem"
-            }}
-          >
-            {loading ? (isSignup ? "Creating Account..." : "Signing In...") : (isSignup ? "Register Account" : "Sign In")}
-          </Button>
-        </form>
-
-        {/* Divider Line */}
-        <hr style={{
+      {/* Right Auth Panel */}
+      <div style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "2rem"
+      }}>
+        <div style={{
           width: "100%",
-          border: "0",
-          borderTop: "1px solid #1f2937",
-          margin: "2rem 0 1.5rem 0"
-        }} />
-
-        {/* Toggle Footer Segment */}
-        {!isSignup ? (
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
-            <div style={{ textAlign: "center" }}>
-              <span style={{ color: "#9ca3af", fontSize: "0.9rem", display: "block", marginBottom: "0.75rem" }}>New here?</span>
-              
-              {/* Alert Message Box */}
-              <div style={{
-                backgroundColor: "#1e293b",
-                border: "1px solid #334155",
-                borderRadius: "8px",
-                padding: "10px 14px",
-                fontSize: "0.8rem",
-                color: "#cbd5e1",
-                lineHeight: "1.4"
-              }}>
-                Sign up creates an employee account admin roles assigned later
-              </div>
-            </div>
-
-            <Button 
-              onClick={() => setIsSignup(true)}
-              style={{
-                backgroundColor: "transparent",
-                border: "1px solid #4b5563",
-                color: "#fff",
-                padding: "10px",
-                fontWeight: "500"
-              }}
-            >
-              Create Account
-            </Button>
-          </div>
-        ) : (
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
-            <span style={{ color: "#9ca3af", fontSize: "0.9rem" }}>Already have an account?</span>
-            <Button 
+          maxWidth: "460px",
+          background: "rgba(17, 24, 39, 0.7)",
+          backdropFilter: "blur(12px)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: "24px",
+          padding: "3rem",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
+        }}>
+          
+          {/* Tabs */}
+          <div style={{ display: "flex", marginBottom: "2.5rem", background: "rgba(0,0,0,0.3)", borderRadius: "12px", padding: "6px" }}>
+            <button 
               onClick={() => setIsSignup(false)}
               style={{
-                backgroundColor: "transparent",
-                border: "1px solid #4b5563",
-                color: "#fff",
+                flex: 1,
                 padding: "10px",
-                fontWeight: "500"
+                border: "none",
+                borderRadius: "8px",
+                background: !isSignup ? "rgba(255,255,255,0.1)" : "transparent",
+                color: !isSignup ? "#fff" : "#9ca3af",
+                fontWeight: !isSignup ? "600" : "500",
+                cursor: "pointer",
+                transition: "all 0.2s"
               }}
             >
               Sign In
-            </Button>
+            </button>
+            <button 
+              onClick={() => setIsSignup(true)}
+              style={{
+                flex: 1,
+                padding: "10px",
+                border: "none",
+                borderRadius: "8px",
+                background: isSignup ? "rgba(255,255,255,0.1)" : "transparent",
+                color: isSignup ? "#fff" : "#9ca3af",
+                fontWeight: isSignup ? "600" : "500",
+                cursor: "pointer",
+                transition: "all 0.2s"
+              }}
+            >
+              Register
+            </button>
           </div>
-        )}
 
+          <h2 style={{ fontSize: "1.8rem", fontWeight: "700", marginBottom: "0.5rem" }}>
+            {isSignup ? "Create an Account" : "Welcome Back"}
+          </h2>
+          <p style={{ color: "#9ca3af", fontSize: "0.95rem", marginBottom: "2rem" }}>
+            {isSignup ? "Join your organization's AssetFlow workspace." : "Enter your credentials to access your workspace."}
+          </p>
+
+          <form onSubmit={isSignup ? handleSignup : handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {isSignup && (
+              <div>
+                <label style={{ display: "block", fontSize: "0.85rem", color: "#d1d5db", fontWeight: "500", marginBottom: "0.5rem" }}>Full Name</label>
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "14px 16px",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                    color: "#fff",
+                    outline: "none",
+                    transition: "border-color 0.2s",
+                    boxSizing: "border-box"
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = ThemeConfig.colors.secondary}
+                  onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
+                />
+              </div>
+            )}
+
+            <div>
+              <label style={{ display: "block", fontSize: "0.85rem", color: "#d1d5db", fontWeight: "500", marginBottom: "0.5rem" }}>Email Address</label>
+              <input
+                type="email"
+                placeholder="name@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  backgroundColor: "rgba(0,0,0,0.2)",
+                  color: "#fff",
+                  outline: "none",
+                  transition: "border-color 0.2s",
+                  boxSizing: "border-box"
+                }}
+                onFocus={(e) => e.target.style.borderColor = ThemeConfig.colors.secondary}
+                onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
+              />
+            </div>
+
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                <label style={{ fontSize: "0.85rem", color: "#d1d5db", fontWeight: "500" }}>Password</label>
+                {!isSignup && (
+                  <span style={{ fontSize: "0.8rem", color: ThemeConfig.colors.secondary, cursor: "pointer", fontWeight: "500" }}>Forgot password?</span>
+                )}
+              </div>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  backgroundColor: "rgba(0,0,0,0.2)",
+                  color: "#fff",
+                  outline: "none",
+                  transition: "border-color 0.2s",
+                  boxSizing: "border-box"
+                }}
+                onFocus={(e) => e.target.style.borderColor = ThemeConfig.colors.secondary}
+                onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              style={{
+                width: "100%",
+                padding: "14px",
+                borderRadius: "12px",
+                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                color: "#fff",
+                border: "none",
+                fontWeight: "600",
+                fontSize: "1rem",
+                marginTop: "1rem",
+                cursor: "pointer",
+                boxShadow: "0 4px 14px 0 rgba(16, 185, 129, 0.39)",
+                transition: "transform 0.1s, boxShadow 0.1s"
+              }}
+              onMouseOver={(e) => e.target.style.transform = "translateY(-1px)"}
+              onMouseOut={(e) => e.target.style.transform = "translateY(0)"}
+            >
+              {loading ? "Please wait..." : (isSignup ? "Create Account" : "Sign In")}
+            </button>
+          </form>
+          
+        </div>
       </div>
     </div>
   );

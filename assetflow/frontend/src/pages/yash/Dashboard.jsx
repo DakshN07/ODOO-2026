@@ -58,10 +58,10 @@ const Dashboard = () => {
     const cardStyle = {
 
         padding: "1.5rem",
-        border: "1px solid #ddd",
+        border: "1px solid #1f2937",
         borderRadius: "8px",
-        background: "#fff"
-
+        background: "#111827",
+        color: "#d1d5db"
     };
 
     if (loading) {

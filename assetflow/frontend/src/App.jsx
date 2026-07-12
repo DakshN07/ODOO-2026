@@ -60,14 +60,14 @@ export default function App() {
       display: 'flex',
       minHeight: '100vh',
       fontFamily: ThemeConfig.fonts.main,
-      background: ThemeConfig.colors.background.light,
-      color: ThemeConfig.colors.text.light
+      background: ThemeConfig.colors.background.dark,
+      color: ThemeConfig.colors.text.dark
     }}>
       {/* Sidebar Navigation */}
       <aside style={{
         width: '260px',
-        background: '#fff',
-        borderRight: '1px solid #e5e7eb',
+        background: '#111827',
+        borderRight: '1px solid #1f2937',
         display: 'flex',
         flexDirection: 'column',
         padding: '1.5rem'
@@ -78,7 +78,7 @@ export default function App() {
 
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
           <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#9ca3af', fontWeight: '600', padding: '0.25rem 0.5rem' }}>
-            Yash (Admin & Auth)
+            Administration & Setup
           </div>
           <Button variant="primary" onClick={() => setCurrentPage('dashboard')} className={currentPage === 'dashboard' ? 'active' : ''}>Dashboard</Button>
           <Button variant="primary" onClick={() => setCurrentPage('login')} className={currentPage === 'login' ? 'active' : ''}>Login</Button>
@@ -86,16 +86,15 @@ export default function App() {
           <Button variant="primary" onClick={() => setCurrentPage('logs')} className={currentPage === 'logs' ? 'active' : ''}>Activity Logs</Button>
 
           <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#9ca3af', fontWeight: '600', padding: '0.5rem 0.5rem 0.25rem 0.5rem' }}>
-            Daksh (Assets & Audits)
+            Core Registry & Audit
           </div>
           <Button variant="secondary" onClick={() => setCurrentPage('assets')} className={currentPage === 'assets' ? 'active' : ''}>Asset Registry</Button>
           <Button variant="secondary" onClick={() => setCurrentPage('audits')} className={currentPage === 'audits' ? 'active' : ''}>Audit Workspace</Button>
           <Button variant="secondary" onClick={() => setCurrentPage('discrepancies')} className={currentPage === 'discrepancies' ? 'active' : ''}>Discrepancies</Button>
           <Button variant="secondary" onClick={() => setCurrentPage('reports')} className={currentPage === 'reports' ? 'active' : ''}>Reports & Analytics</Button>
 
-
           <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#9ca3af', fontWeight: '600', padding: '0.5rem 0.5rem 0.25rem 0.5rem' }}>
-            Ayush (Allocations & Maintenance)
+            Operations & Maintenance
           </div>
           <Button variant="warning" onClick={() => setCurrentPage('allocations')} className={currentPage === 'allocations' ? 'active' : ''}>Allocations</Button>
           <Button variant="warning" onClick={() => setCurrentPage('bookings')} className={currentPage === 'bookings' ? 'active' : ''}>Bookings</Button>
@@ -104,17 +103,17 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main style={{ flex: 1, background: '#f9fafb' }}>
+      <main style={{ flex: 1, background: '#0b0f19' }}>
         <header style={{
           height: '64px',
-          background: '#fff',
-          borderBottom: '1px solid #e5e7eb',
+          background: '#111827',
+          borderBottom: '1px solid #1f2937',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-end',
           padding: '0 2rem'
         }}>
-          <div style={{ fontSize: '0.875rem', color: '#4b5563' }}>
+          <div style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
             Current User:
               <strong>
               {
