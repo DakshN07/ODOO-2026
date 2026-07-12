@@ -43,11 +43,34 @@ exports.registerAsset = async (req, res) => {
 
 exports.getAssets = async (req, res) => {
   try {
-    res.status(200).json({ success: true, assets: [] });
+    const { search, category, status, location } = req.query;
+    const query = {};
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { serialNumber: { $regex: search, $options: 'i' } },
+        { assetTag: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    if (category) {
+      query.category = category;
+    }
+    if (status) {
+      query.status = status;
+    }
+    if (location) {
+      query.location = { $regex: location, $options: 'i' };
+    }
+
+    const assets = await Asset.find(query).populate('category');
+    res.status(200).json({ success: true, count: assets.length, assets });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
 
 // Audits stubs
 exports.createAuditCycle = async (req, res) => {
