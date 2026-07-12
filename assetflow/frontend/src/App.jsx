@@ -37,6 +37,20 @@ export default function App() {
     }
   };
 
+      let user = null;
+
+    try {
+        user = JSON.parse(localStorage.getItem("user"));
+    } catch (err) {
+        user = null;
+    }
+
+  if(!user && currentPage !== "login"){
+
+    return <Login />;
+
+}
+
   return (
     <div style={{
       display: 'flex',
@@ -95,7 +109,21 @@ export default function App() {
           padding: '0 2rem'
         }}>
           <div style={{ fontSize: '0.875rem', color: '#4b5563' }}>
-            Current User: <strong>Manager</strong>
+            Current User:
+              <strong>
+              {
+                  JSON.parse(localStorage.getItem("user"))?.name || "Guest"
+              }
+              </strong>
+
+              &nbsp;|&nbsp;
+
+              Role:
+              <strong>
+              {
+                  JSON.parse(localStorage.getItem("user"))?.role || "-"
+              }
+              </strong>
           </div>
         </header>
 

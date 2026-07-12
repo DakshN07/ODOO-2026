@@ -1,37 +1,149 @@
-import React from 'react';
+import React,{useEffect,useState} from "react";
+import api from "../../api";
 
-export const Logs = () => {
-  const dummyLogs = [
-    { id: 1, user: 'Admin', action: 'Created Asset', details: 'Added MacBook Pro Serial # MBP2026', timestamp: '2026-07-12 10:00 AM' },
-    { id: 2, user: 'Daksh', action: 'Started Audit', details: 'Initialized Audit Cycle FY26-Q2', timestamp: '2026-07-12 09:30 AM' },
-    { id: 3, user: 'Ayush', action: 'Allocated Resource', details: 'Meeting Room A allocated to Marketing', timestamp: '2026-07-12 09:00 AM' }
-  ];
+const Logs = ()=>{
 
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Activity Logs</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
-        <thead>
-          <tr style={{ background: '#f5f5f5', borderBottom: '2px solid #ddd' }}>
-            <th style={{ padding: '10px', textAlign: 'left' }}>User</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Action</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Details</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dummyLogs.map(log => (
-            <tr key={log.id} style={{ borderBottom: '1px solid #eee' }}>
-              <td style={{ padding: '10px' }}>{log.user}</td>
-              <td style={{ padding: '10px' }}>{log.action}</td>
-              <td style={{ padding: '10px' }}>{log.details}</td>
-              <td style={{ padding: '10px' }}>{log.timestamp}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+    const [logs,setLogs]=useState([]);
+
+    useEffect(()=>{
+
+        fetchLogs();
+
+    },[]);
+
+    const fetchLogs = async()=>{
+
+        try{
+
+            const response = await api.get(
+
+                "/yash/logs"
+
+            );
+
+            setLogs(
+
+                response.data.logs
+
+            );
+
+        }
+
+        catch(error){
+
+            console.log(error);
+
+        }
+
+    };
+
+    return(
+
+        <div style={{padding:"2rem"}}>
+
+            <h2>Activity Logs</h2>
+
+            <table
+            style={{
+                width:"100%",
+                marginTop:"20px"
+            }}
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th>User</th>
+
+                        <th>Role</th>
+
+                        <th>Action</th>
+
+                        <th>Module</th>
+
+                        <th>Time</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {
+
+                    logs.length===0 ?
+
+                    <tr>
+
+                        <td
+                        colSpan="5"
+                        >
+                            No Logs
+                        </td>
+
+                    </tr>
+
+                    :
+
+                    logs.map((log)=>(
+
+                        <tr
+                        key={log._id}
+                        >
+
+                            <td>
+
+                                {log.user?.name}
+
+                            </td>
+
+                            <td>
+
+                                {log.user?.role}
+
+                            </td>
+
+                            <td>
+
+                                {log.action}
+
+                            </td>
+
+                            <td>
+
+                                {log.module}
+
+                            </td>
+
+                            <td>
+
+                                {
+
+                                    new Date(
+
+                                        log.createdAt
+
+                                    ).toLocaleString()
+
+                                }
+
+                            </td>
+
+                        </tr>
+
+                    ))
+
+                }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    );
+
 };
 
 export default Logs;
