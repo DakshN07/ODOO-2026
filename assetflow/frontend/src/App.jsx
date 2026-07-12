@@ -12,6 +12,8 @@ import Logs from './pages/yash/Logs';
 import AssetRegistry from './pages/daksh/AssetRegistry';
 import AuditWorkspace from './pages/daksh/AuditWorkspace';
 import DiscrepancyReportView from './pages/daksh/DiscrepancyReportView';
+import Reports from './pages/daksh/Reports';
+
 
 // Ayush Pages
 import Allocations from './pages/ayush/Allocations';
@@ -30,7 +32,9 @@ export default function App() {
       case 'assets': return <AssetRegistry />;
       case 'audits': return <AuditWorkspace />;
       case 'discrepancies': return <DiscrepancyReportView />;
+      case 'reports': return <Reports />;
       case 'allocations': return <Allocations />;
+
       case 'bookings': return <Bookings />;
       case 'maintenance': return <MaintenanceBoards />;
       default: return <Dashboard />;
@@ -87,6 +91,8 @@ export default function App() {
           <Button variant="secondary" onClick={() => setCurrentPage('assets')} className={currentPage === 'assets' ? 'active' : ''}>Asset Registry</Button>
           <Button variant="secondary" onClick={() => setCurrentPage('audits')} className={currentPage === 'audits' ? 'active' : ''}>Audit Workspace</Button>
           <Button variant="secondary" onClick={() => setCurrentPage('discrepancies')} className={currentPage === 'discrepancies' ? 'active' : ''}>Discrepancies</Button>
+          <Button variant="secondary" onClick={() => setCurrentPage('reports')} className={currentPage === 'reports' ? 'active' : ''}>Reports & Analytics</Button>
+
 
           <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#9ca3af', fontWeight: '600', padding: '0.5rem 0.5rem 0.25rem 0.5rem' }}>
             Ayush (Allocations & Maintenance)
