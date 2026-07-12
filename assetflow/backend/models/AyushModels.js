@@ -1,38 +1,58 @@
 const mongoose = require('mongoose');
 
-// Allocation Model
+// ================= ALLOCATION =================
 const AllocationSchema = new mongoose.Schema({
   asset: { type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: true },
   allocatedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   allocatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', default: null },
   allocatedDate: { type: Date, default: Date.now },
-  returnDate: { type: Date },
-  status: { type: String, enum: ['Active', 'Returned', 'Overdue'], default: 'Active' },
-  notes: { type: String },
+  expectedReturnDate: { type: Date, default: null },
+  actualReturnDate: { type: Date, default: null },
+  returnNotes: { type: String, default: '' },
+  status: {
+    type: String,
+    enum: ['Active', 'Returned', 'Transfer Requested'],
+    default: 'Active'
+  },
+  notes: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now }
 });
 
-// ResourceBooking Model (e.g., meeting room, lab equipment booking)
+// ================= RESOURCE BOOKING =================
 const ResourceBookingSchema = new mongoose.Schema({
-  resourceName: { type: String, required: true },
-  bookedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  asset: { type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   startTime: { type: Date, required: true },
   endTime: { type: Date, required: true },
-  purpose: { type: String },
-  status: { type: String, enum: ['Pending', 'Approved', 'Rejected', 'Cancelled'], default: 'Pending' },
+  purpose: { type: String, default: '' },
+  status: {
+    type: String,
+    enum: ['Upcoming', 'Ongoing', 'Completed', 'Cancelled'],
+    default: 'Upcoming'
+  },
   createdAt: { type: Date, default: Date.now }
 });
 
-// MaintenanceRequest Model
+// ================= MAINTENANCE REQUEST =================
 const MaintenanceRequestSchema = new mongoose.Schema({
   asset: { type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: true },
-  requestedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   issueDescription: { type: String, required: true },
-  priority: { type: String, enum: ['Low', 'Medium', 'High', 'Critical'], default: 'Medium' },
-  status: { type: String, enum: ['Submitted', 'Assigned', 'In-Progress', 'Resolved', 'Cancelled'], default: 'Submitted' },
-  assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  cost: { type: Number, default: 0 },
-  resolvedAt: { type: Date },
+  priority: {
+    type: String,
+    enum: ['Low', 'Medium', 'High', 'Critical'],
+    default: 'Medium'
+  },
+  status: {
+    type: String,
+    enum: ['Pending', 'Approved', 'Rejected', 'Technician Assigned', 'In Progress', 'Resolved'],
+    default: 'Pending'
+  },
+  assignedTechnician: { type: String, default: '' },
+  resolutionNotes: { type: String, default: '' },
+  photo: { type: String, default: '' },
+  resolvedAt: { type: Date, default: null },
   createdAt: { type: Date, default: Date.now }
 });
 
