@@ -1,4 +1,5 @@
 const { Counter, Asset, AuditCycle, DiscrepancyReport } = require('../models/DakshModels');
+const { Allocation, MaintenanceRequest } = require('../models/AyushModels');
 
 // Asset Directory & Registration
 exports.registerAsset = async (req, res) => {
@@ -105,3 +106,74 @@ exports.resolveDiscrepancy = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+exports.getAssetHistory = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Fetch allocations
+    const allocations = await Allocation.find({ asset: id })
+      .populate('allocatedTo', 'name email')
+      .populate('allocatedBy', 'name email');
+
+    // Fetch maintenance requests
+    const maintenance = await MaintenanceRequest.find({ asset: id })
+      .populate('requestedBy', 'name email')
+      .populate('assignedTo', 'name email');
+
+    const historyEvents = [];
+
+    allocations.forEach(alloc => {
+      historyEvents.push({
+        type: 'allocation',
+        date: alloc.allocatedDate,
+        status: alloc.status,
+        notes: alloc.notes,
+        user: alloc.allocatedTo ? alloc.allocatedTo.name : 'Unknown User',
+        userEmail: alloc.allocatedTo ? alloc.allocatedTo.email : '',
+        by: alloc.allocatedBy ? alloc.allocatedBy.name : 'System',
+        returnDate: alloc.returnDate
+      });
+      if (alloc.status === 'Returned' && alloc.returnDate) {
+        historyEvents.push({
+          type: 'return',
+          date: alloc.returnDate,
+          status: 'Returned',
+          user: alloc.allocatedTo ? alloc.allocatedTo.name : 'Unknown User',
+          userEmail: alloc.allocatedTo ? alloc.allocatedTo.email : '',
+          by: alloc.allocatedBy ? alloc.allocatedBy.name : 'System'
+        });
+      }
+    });
+
+    maintenance.forEach(maint => {
+      historyEvents.push({
+        type: 'maintenance',
+        date: maint.createdAt,
+        status: maint.status,
+        priority: maint.priority,
+        notes: maint.issueDescription,
+        user: maint.requestedBy ? maint.requestedBy.name : 'Unknown User',
+        assignedTo: maint.assignedTo ? maint.assignedTo.name : 'Unassigned',
+        cost: maint.cost
+      });
+      if (maint.resolvedAt) {
+        historyEvents.push({
+          type: 'maintenance_resolved',
+          date: maint.resolvedAt,
+          status: 'Resolved',
+          notes: 'Maintenance completed',
+          cost: maint.cost
+        });
+      }
+    });
+
+    // Sort by date descending
+    historyEvents.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    res.status(200).json({ success: true, history: historyEvents });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+

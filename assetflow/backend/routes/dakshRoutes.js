@@ -5,6 +5,8 @@ const dakshController = require('../controllers/dakshController');
 // Asset routes
 router.post('/assets', dakshController.registerAsset);
 router.get('/assets', dakshController.getAssets);
+router.get('/assets/:id/history', dakshController.getAssetHistory);
+
 
 // Audit routes
 router.post('/audits', dakshController.createAuditCycle);
