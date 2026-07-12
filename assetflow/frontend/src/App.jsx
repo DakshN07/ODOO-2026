@@ -9,9 +9,9 @@ import Dashboard from './pages/yash/Dashboard';
 import Logs from './pages/yash/Logs';
 
 // Daksh Pages
-import AssetDirectory from './pages/daksh/AssetDirectory';
-import Registration from './pages/daksh/Registration';
-import Audits from './pages/daksh/Audits';
+import AssetRegistry from './pages/daksh/AssetRegistry';
+import AuditWorkspace from './pages/daksh/AuditWorkspace';
+import DiscrepancyReportView from './pages/daksh/DiscrepancyReportView';
 
 // Ayush Pages
 import Allocations from './pages/ayush/Allocations';
@@ -27,9 +27,9 @@ export default function App() {
       case 'admin-setup': return <AdminSetup />;
       case 'dashboard': return <Dashboard />;
       case 'logs': return <Logs />;
-      case 'assets': return <AssetDirectory />;
-      case 'register-asset': return <Registration />;
-      case 'audits': return <Audits />;
+      case 'assets': return <AssetRegistry />;
+      case 'audits': return <AuditWorkspace />;
+      case 'discrepancies': return <DiscrepancyReportView />;
       case 'allocations': return <Allocations />;
       case 'bookings': return <Bookings />;
       case 'maintenance': return <MaintenanceBoards />;
@@ -70,9 +70,9 @@ export default function App() {
           <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#9ca3af', fontWeight: '600', padding: '0.5rem 0.5rem 0.25rem 0.5rem' }}>
             Daksh (Assets & Audits)
           </div>
-          <Button variant="secondary" onClick={() => setCurrentPage('assets')} className={currentPage === 'assets' ? 'active' : ''}>Asset Directory</Button>
-          <Button variant="secondary" onClick={() => setCurrentPage('register-asset')} className={currentPage === 'register-asset' ? 'active' : ''}>Register Asset</Button>
-          <Button variant="secondary" onClick={() => setCurrentPage('audits')} className={currentPage === 'audits' ? 'active' : ''}>Audit Cycles</Button>
+          <Button variant="secondary" onClick={() => setCurrentPage('assets')} className={currentPage === 'assets' ? 'active' : ''}>Asset Registry</Button>
+          <Button variant="secondary" onClick={() => setCurrentPage('audits')} className={currentPage === 'audits' ? 'active' : ''}>Audit Workspace</Button>
+          <Button variant="secondary" onClick={() => setCurrentPage('discrepancies')} className={currentPage === 'discrepancies' ? 'active' : ''}>Discrepancies</Button>
 
           <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#9ca3af', fontWeight: '600', padding: '0.5rem 0.5rem 0.25rem 0.5rem' }}>
             Ayush (Allocations & Maintenance)
